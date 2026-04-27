@@ -1,0 +1,114 @@
+{
+  "includes": [
+    {
+      "pattern_type": "prefix",
+      "pattern": "arms"
+    },
+    {
+      "pattern_type": "prefix",
+      "pattern": "amalitech"
+    },
+    {
+      "pattern_type": "prefix",
+      "pattern": "Jenkins"
+    }
+  ],
+  "excludes": [
+    {
+      "pattern_type": "regex",
+      "pattern": "^amalitech-finance-sftp-server$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^amalitech-payroll-frontend-vuejs$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^amalitech-service-validation-shareables$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^amalitech-tools-and-services-iac$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^amalitech-tools-and-services-production-iac$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-contract-frontend$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-contract-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-documents-and-policies-microservice$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-email-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-invoice-frontend$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-invoice-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-leave-management-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-leaves-frontend$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-loans-frontend$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-loans-graph-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-loans-api-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-loans-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-notification-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-performance-assessment-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-procurement-pro-automated-testing$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-procurement-frontend$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-procurement-service$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-performance-frontend$"
+    },
+    {
+      "pattern_type": "regex",
+      "pattern": "^arms-performance-assesment-service$"
+    }
+  ]
+}
