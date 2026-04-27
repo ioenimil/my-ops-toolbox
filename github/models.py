@@ -116,3 +116,27 @@ class GlobRule:
 
 
 ExclusionRule = Union[PrefixRule, SuffixRule, ExactRule, GlobRule]
+
+class PatternType(Enum):
+    """The type of pattern used for filtering."""
+    PREFIX = auto()
+    SUFFIX = auto()
+    REGEX = auto()
+
+class FilterAction(Enum):
+    """The action to take when a rule matches."""
+    INCLUDE = auto()
+    EXCLUDE = auto()
+
+@dataclass(frozen=True)
+class FilteringRule:
+    """Represents a single inclusion or exclusion pattern rule."""
+    pattern_type: PatternType
+    pattern: str
+    action: FilterAction
+
+@dataclass
+class FilteringConfig:
+    """The configuration construct holding all defined rules."""
+    includes: list[FilteringRule] = field(default_factory=list)
+    excludes: list[FilteringRule] = field(default_factory=list)

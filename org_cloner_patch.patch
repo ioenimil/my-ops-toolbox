@@ -1,0 +1,56 @@
+--- github/org_cloner.py
++++ github/org_cloner.py
+@@ -58,6 +58,30 @@
+         help="Exclude repositories whose names end with SUFFIX. Repeatable.",
+     )
+     parser.add_argument(
++        "--include-prefix",
++        metavar="PREFIX",
++        dest="include_prefixes",
++        action="append",
++        default=[],
++        help="Include repositories whose names start with PREFIX. Repeatable.",
++    )
++    parser.add_argument(
++        "--include-suffix",
++        metavar="SUFFIX",
++        dest="include_suffixes",
++        action="append",
++        default=[],
++        help="Include repositories whose names end with SUFFIX. Repeatable.",
++    )
++    parser.add_argument(
++        "--filter-config",
++        metavar="PATH",
++        dest="filter_config",
++        type=Path,
++        default=None,
++        help="Load filtering inclusion/exclusion rules from a JSON config file.",
++    )
++    parser.add_argument(
+         "--exclude",
+         metavar="NAME",
+         dest="exclude_names",
+@@ -140,6 +164,12 @@
+         patterns=args.exclude_patterns,
+     )
+ 
++    filter_cfg = None
++    if args.filter_config:
++        from github.filtering import parse_filtering_config
++        filter_cfg = parse_filtering_config(args.filter_config)
++
+     results = asyncio.run(
+         sync_organisation(
+             org=args.org,
+             target_dir=output_dir,
+             token=token,
+             rules=rules,
++            prefix_includes=args.include_prefixes,
++            suffix_includes=args.include_suffixes,
++            filter_config=filter_cfg,
+             protocol=args.protocol,
+             max_concurrent=args.max_concurrent,
+             verbose=args.verbose,
+         )
+     )

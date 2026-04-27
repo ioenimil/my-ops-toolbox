@@ -51,9 +51,7 @@ async def is_valid_git_repo(path: Path) -> bool:
 
 async def is_dirty(repo_dir: Path) -> bool:
     """Return True if the repository at repo_dir has uncommitted changes."""
-    _, stdout, _ = await run_git_command(
-        ["git", "status", "--porcelain"], cwd=repo_dir
-    )
+    _, stdout, _ = await run_git_command(["git", "status", "--porcelain"], cwd=repo_dir)
     return bool(stdout)
 
 
@@ -119,7 +117,9 @@ async def update_repo(
                 raise RuntimeError(f"git pull failed (code {rc}): {err}")
             return rc, "", ""
 
-    _, head_before, _ = await run_git_command(["git", "rev-parse", "HEAD"], cwd=repo_dir)
+    _, head_before, _ = await run_git_command(
+        ["git", "rev-parse", "HEAD"], cwd=repo_dir
+    )
 
     try:
         await with_retry(_do_update)
@@ -142,6 +142,10 @@ async def sync_organisation(
     target_dir: Path,
     token: str,
     rules: list[ExclusionRule] | None = None,
+    prefix_includes: list[str] | None = None,
+    suffix_includes: list[str] | None = None,
+    regex_includes: list[str] | None = None,
+    filter_config=None,
     protocol: str = "https",
     max_concurrent: int = 5,
     verbose: bool = False,
@@ -159,6 +163,18 @@ async def sync_organisation(
     target_dir.mkdir(parents=True, exist_ok=True)
     repos = await fetch_org_repos(org, token)
 
+    from github.filtering import filter_repositories
+
+    # Apply complex inclusion/exclusion if filtering elements are present
+    if prefix_includes or suffix_includes or regex_includes or filter_config:
+        repos = filter_repositories(
+            repos,
+            prefix_includes=prefix_includes,
+            suffix_includes=suffix_includes,
+            regex_includes=regex_includes,
+            config=filter_config,
+        )
+
     logger.info("Syncing organisation: %s (%d repositories)", org, len(repos))
 
     semaphore = asyncio.Semaphore(max_concurrent)
@@ -169,7 +185,9 @@ async def sync_organisation(
     for repo in repos:
         if matches_any(repo.name, rules):
             logger.debug("[excluded]  %s", repo.name)
-            results.append(SyncResult(repo_name=repo.name, outcome=Outcome.SKIPPED_EXCLUDED))
+            results.append(
+                SyncResult(repo_name=repo.name, outcome=Outcome.SKIPPED_EXCLUDED)
+            )
             continue
 
         repo_dir = target_dir / repo.name
